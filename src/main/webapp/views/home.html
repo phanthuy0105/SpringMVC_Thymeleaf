@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th=”http://www.thymeleaf.org”>
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<!--~{...}: Lấy các phân đoạn-->
+<header th:insert="layout::header"></header>
+<h2>Thymeleaf Demo</h2>
+<h3>1. Biểu thức ${...}: Lấy giá trị biến</h3>
+<div>
+    <h5 th:text="${rs}"></h5>
+    <p th:text="${ra}"></p>
+    <h4>Nối chuỗi với + hoặc ||</h4>
+    <h5 th:text="${'Công ty '+rs}"></h5>
+    <p th:text="|Công ty ${ra}|"></p>
+</div>
+<h3>2. Biểu thức *{...}: Lấy thuộc tính của biến</h3>
+<div th:object="${student}">
+    <p th:text="${student.studentId}"></p>
+    <p th:text="*{studentName}"></p>
+    <p th:text="*{age}"></p>
+    <p th:text="*{status}"></p>
+</div>
+<h3 th:text="#{message.title}"></h3>
+<p th:text="#{message.content}"></p>
+</body>
+<h3>4. Biểu thức @{...} tạo các đường dẫn, link</h3>
+<table border="1">
+    <thead>
+    <tr>
+        <th>No</th>
+        <th>Student ID</th>
+        <th>Student Name</th>
+        <th>Age</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student,loop:${listStudents}">
+        <td th:text="${loop.index+1}"></td>
+        <td th:text="${student.studentId}"></td>
+        <td th:text="${student.studentName}"></td>
+        <td th:text="${student.age}"></td>
+        <!--        <td th:text="${student.status}"></td>-->
+        <!--th:if - điều kiện-->
+        <td th:switch="${student.status}">
+            <!--            <span th:if="${student.status==true}">Active</span>-->
+            <!--&lt;!&ndash;            <span th:if="${student.status==false}">Inactive</span>&ndash;&gt;-->
+            <!--            <span th:unless="${student.status==true}">Inactive</span>-->
+            <span th:case="true">Active</span>
+            <span th:case="false">Inactive</span>
+            <span th:case="*">Other</span>
+        </td>
+        <td>
+            <!--jstl: <a:href="/edit?studentId=${student.studentId}">Edit</a>-->
+            <a th:href="@{/edit(studentId=${student.studentId})}">Edit</a>
+            <a href="">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<header th:insert="layout::footer"></header>
+</html>
